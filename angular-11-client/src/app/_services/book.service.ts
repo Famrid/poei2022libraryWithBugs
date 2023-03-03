@@ -21,6 +21,13 @@ export class BookService {
     ));
   }
 
+  public getByRecommendations(): Observable<Book[]> {
+    return this.http.get(API_URL + 'recommendations').pipe(map(response => {
+        return plainToClass(Book, response as Book[]);
+      }
+    ));
+  }
+
   public create(book: Book): Observable<Book> {
     return this.http.post(API_URL, book)
       .pipe(map(response => {

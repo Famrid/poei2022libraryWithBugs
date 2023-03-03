@@ -6,4 +6,5 @@ export class Renting {
   user: any;
   startDate: Date;
   endDate: Date;
+  dueDate: Date;
 }

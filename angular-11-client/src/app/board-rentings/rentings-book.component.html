@@ -1,22 +1,32 @@
-
-
-
 <div class="col-md-12 mt-2 card">
   <div class="card-header">
     Liste des livres
   </div>
   <div class="card-body">
 
-    <div class="card " *ngFor="let book of books$ | async">
-      <div class="card-body row">
-        <div class="col-md-3">{{book.title}}</div>
-        <div class="col-md-3">{{book.description}}</div>
-        <div class="col-md-3">{{book.parutionDate}}</div>
-        <div class="col-md-3">{{book.author.firstName}} {{book.author.lastName}}</div>
-        <div class="col-md-12"><button class="btn btn-primary" (click)="saveRenting(book)">Emprunter</button></div>
+
+    <div class="card">
+      <div class="card-body row bg-secondary">
+        <div class="col-md-3">Titre</div>
+        <div class="col-md-3">Description</div>
+        <div class="col-md-2">Date parution</div>
+        <div class="col-md-2">Auteur</div>
+        <div class="col-md-2">
+          <button class="btn btn-primary" (click)="listBooks(true)">par recommendation</button>
+        </div>
+      </div>
+      <div *ngFor="let book of books$ | async" class="border-bottom">
+        <div class="card-body row">
+          <div class="col-md-3">{{book.title}}</div>
+          <div class="col-md-3">{{book.description}}</div>
+          <div class="col-md-2">{{book.parutionDate}}</div>
+          <div class="col-md-2">{{book.author.firstName}} {{book.author.lastName}}</div>
+          <div class="col-md-2">
+            <button class="btn btn-primary" (click)="createRenting(book)">Emprunter</button>
+          </div>
+        </div>
       </div>
     </div>
-
 
   </div>
 </div>
@@ -26,15 +36,27 @@
     Liste des emprunts
   </div>
   <div class="card-body">
-
-    <div class="card " *ngFor="let renting of rentings$ | async">
-      <div class="card-body row">
-        <div class="col-md-3">{{renting.book.title}}</div>
-        <div class="col-md-3">{{renting.startDate}}</div>
-        <div class="col-md-3">{{renting.endDate}}</div>
+    <div class="card">
+      <div class="card-body row bg-secondary">
+        <div class="col-md-3">Titre</div>
+        <div class="col-md-2">Date début</div>
+        <div class="col-md-2">Date fin</div>
+        <div class="col-md-2">Date échéance</div>
+        <div class="col-md-3"></div>
+      </div>
+      <div *ngFor="let renting of rentings$ | async">
+        <div class="card-body row">
+          <div class="col-md-3">{{renting.book.title}}</div>
+          <div class="col-md-2">{{renting.startDate| date: 'dd-MM-yyyy hh:mm'}}</div>
+          <div class="col-md-2">{{renting.endDate| date: 'dd-MM-yyyy hh:mm'}}</div>
+          <div class="col-md-2">{{renting.dueDate | date: 'dd-MM-yyyy'}}</div>
+          <div class="col-md-3">
+            <button [disabled]="renting.endDate" class="btn btn-primary" (click)="updateRenting(renting)">Rendre
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-
 
   </div>
 </div>

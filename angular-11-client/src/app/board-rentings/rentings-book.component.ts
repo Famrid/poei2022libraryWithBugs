@@ -34,16 +34,30 @@ export class RentingsBookComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.books$ = this.bookService.getAll();
+    this.listBooks();
     this.listRentings();
   }
 
-  saveRenting(book: Book): void {
+  listBooks(byRecommendation= false): void {
+    if(byRecommendation){
+      this.books$ = this.bookService.getByRecommendations();
+    } else {
+      this.books$ = this.bookService.getAll();
+    }
+
+  }
+
+  createRenting(book: Book): void {
     const renting = new Renting();
     renting.book = book;
     renting.user = this.tokenStorage.getUser();
     delete renting.user.roles;
-    this.rentingService.create(renting).subscribe();
+    this.rentingService.save(renting).subscribe();
+  }
+
+  updateRenting(renting: Renting): void {
+    renting.endDate = new Date();
+    this.rentingService.save(renting).subscribe();
   }
 
   listRentings(): void {

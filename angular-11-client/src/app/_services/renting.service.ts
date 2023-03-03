@@ -29,7 +29,7 @@ export class RentingService {
     ));
   }
 
-  public create(renting: Renting): Observable<Renting> {
+  public save(renting: Renting): Observable<Renting> {
     return this.http.post(API_URL, renting)
       .pipe(map(response => {
           return plainToClass(Renting, response as Renting);
