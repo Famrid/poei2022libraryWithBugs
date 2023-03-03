@@ -74,10 +74,10 @@ public class AuthController {
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+		if (userRepository.existsByUsername(signUpRequest.getUsername()) && userRepository.existsByUsernameAndEmail(signUpRequest.getUsername(), signUpRequest.getEmail())) {
 			return ResponseEntity
 					.badRequest()
-					.body(new MessageResponse("Error: Username is already taken!"));
+					.body(new MessageResponse("Error: One cannot have the same mail and username!"));
 		}
 
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
